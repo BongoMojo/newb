@@ -2,25 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hullo World with Cat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
-      background-color: #fefefe;
+      font-family: 'Inter', sans-serif;
     }
-    img {
-      margin-top: 20px;
-      max-width: 80%;
-      height: auto;
+    .countdown-circle {
+      stroke-dasharray: 283; /* 2 * PI * 45 */
+      stroke-dashoffset: 283;
+      transition: stroke-dashoffset 1s linear;
     }
   </style>
 </head>
-<body>
-  <h1>Hullo World 🐾</h1>
-  <p>Here's a cat to brighten your day:</p>
-  <div class="tenor-gif-embed" data-postid="15366427017291655791" data-share-method="host" data-aspect-ratio="0.785185" data-width="100%"><a href="https://tenor.com/view/celebration-gif-15366427017291655791">Celebration GIF</a>from <a href="https://tenor.com/search/celebration-gifs">Celebration GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-</body>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4 text-center">
 
+  <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700 max-w-md w-full">
+    <h1 class="text-4xl font-bold">Hullo World 🐾</h1>
+    <p class="mt-2 text-lg text-gray-300">Here's a cat to brighten your day:</p>
+    
+    <!-- This image tag now points to the local cat.gif file in the assets folder. -->
+    <img 
+      src="assets/cat.gif" 
+      alt="A cute cat GIF to brighten the day"
+      onerror="this.onerror=null;this.src='https://placehold.co/600x400/1f2937/ffffff?text=cat.gif%20not%20found!';"
+      class="mt-6 rounded-lg shadow-xl max-w-sm w-full mx-auto"
+    >
+
+    <div class="mt-8">
+        <p class="text-gray-400">Redirecting to the secret base in...</p>
+        <div class="relative w-24 h-24 mx-auto mt-2">
+            <svg class="absolute top-0 left-0 w-full h-full" viewBox="0 0 100 100">
+                <circle class="text-gray-700" stroke-width="10" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50"/>
+                <circle 
+                    id="countdown-circle"
+                    class="text-blue-500 countdown-circle" 
+                    stroke-width="10" 
+                    stroke-linecap="round" 
+                    stroke="currentColor" 
+                    fill="transparent" 
+                    r="45" 
+                    cx="50" 
+                    cy="50"
+                    style="transform: rotate(-90deg); transform-origin: 50% 50%;"
+                />
+            </svg>
+            <span id="countdown" class="absolute top-0 left-0 w-full h-full flex items-center justify-center text-3xl font-bold">15</span>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Redirection Logic ---
+    const redirectTime = 15; // Time in seconds
+    const destination = 'secretbase2.html';
+
+    // This function will change the window's location after the specified time.
+    setTimeout(() => {
+      window.location.href = destination;
+    }, redirectTime * 1000);
+
+
+    // --- Countdown Timer UI Logic ---
+    let timeLeft = redirectTime;
+    const countdownElement = document.getElementById('countdown');
+    const circleElement = document.getElementById('countdown-circle');
+    const circleCircumference = 2 * Math.PI * 45; // 2 * PI * radius
+
+    // This function updates the countdown number and the progress circle every second.
+    const timerInterval = setInterval(() => {
+      timeLeft--;
+      if (countdownElement) {
+        countdownElement.innerText = timeLeft;
+      }
+      
+      // Update the SVG circle progress
+      if(circleElement) {
+        const dashOffset = circleCircumference * (1 - timeLeft / redirectTime);
+        circleElement.style.strokeDashoffset = dashOffset;
+      }
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+      }
+    }, 1000);
+    
+    // Set initial circle state
+    if(circleElement) {
+        circleElement.style.strokeDashoffset = 0;
+    }
+
+  </script>
+
+</body>
 </html>
