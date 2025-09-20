@@ -1,0 +1,16 @@
+{
+  "routes": [
+    {
+      "route": "/index.html",
+      "headers": {
+        "Cache-Control": "max-age=120"
+      }
+    },
+    {
+      "route": "/",
+      "headers": {
+        "Cache-Control": "max-age=120"
+      }
+    }
+  ]
+}
